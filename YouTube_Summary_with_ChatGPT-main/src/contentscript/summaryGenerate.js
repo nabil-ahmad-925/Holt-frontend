@@ -68,7 +68,7 @@ async function saveSummaryInDB(summaryObject){
 
 export async function   main(transcript)    {
   // 5ro6o3gpyAw
- console.log("Fetching Transcript GITHUB-------");
+ console.log("Fetching Transcript GITHUB Actuions-------");
 //  const transcript =  await YoutubeTranscript.fetchTranscript('5ro6o3gpyAw');
  console.log("Array Data ======>",transcript);
  console.log("Array Data Stringify======>",JSON.stringify(transcript));
