@@ -1,10 +1,5 @@
  
- //<--------------------------------------------------88888888888888----------------------------------------->
- 
- 
-//  const { YoutubeTranscript } =  require( 'youtube-transcript');
-//  const {GoogleGenerativeAI} = require('@google/generative-ai'); // For Gemini API
- 
+
 import 'url';
 import { YoutubeTranscript } from 'youtube-transcript';
 import { GoogleGenerativeAI } from '@google/generative-ai'; // For Gemini API
@@ -51,8 +46,6 @@ function getData(key, callback) {
 }
 
 async function saveSummaryInDB(summaryObject){
-
-
   const response = await fetch('http://localhost:3000/save-summary', {
                         method: 'POST',
                         headers: {
@@ -63,6 +56,55 @@ async function saveSummaryInDB(summaryObject){
 
                     });
                 
+}
+
+// Function to make API requests
+async function fetchData(url) {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
+
+// Function to get video details
+async function getVideoDetails() {
+  const apiKey = 'AIzaSyBBZR5is4JEiF31xAt4zr0oDs70Cbr9MGQ';
+  const videoId = 'fTFWvpt1BSY';
+
+  const videoDetailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${videoId}&key=${apiKey}`;
+  const videoDetails = await fetchData(videoDetailsUrl);
+  return videoDetails.items[0];
+}
+
+
+// Function to get video captions
+async function getVideoCaptions() {
+  const apiKey = 'AIzaSyBBZR5is4JEiF31xAt4zr0oDs70Cbr9MGQ';
+  const videoId = 'fTFWvpt1BSY';
+
+  const captionsUrl = `https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=${videoId}&key=${apiKey}`;
+  const captionsData = await fetchData(captionsUrl);
+  
+  if (captionsData.items && captionsData.items.length > 0) {
+    const captions = captionsData.items;
+    console.log("Captions=========>",captions);
+    const captionsInfo = [];
+    for (const caption of captions) {
+      const language = caption.snippet.language;
+      const captionText = caption.snippet.text;
+
+      
+      // Print or process the caption information
+      console.log(`Language: ${language}`);
+      console.log(`Caption Text: ${captionText}`);
+
+       // Add the caption information to the captionsInfo array
+       captionsInfo.push({ language, captionText });
+    }
+
+    return captionsInfo;
+  } else {
+    console.log("No captions available");
+  }
 }
 
 
@@ -82,6 +124,12 @@ console.log("Generating Summary ------->>>>>");
 const finalSummary = await generateContent(joinedText);
 console.log("final summary ==================-->>>",finalSummary.text() );
 
+
+
+const detail =  await getVideoDetails();
+const captionsInfo =await getVideoCaptions();
+ 
+ 
 let userId ;
 getData('User', function(user) {
   userId = user.id
@@ -90,18 +138,32 @@ getData('User', function(user) {
 
 console.log("Id ==========>",userId)
 
-// Sample data for the request body
-const requestBody = {
-  userId: userId,  // Replace with the actual user ID
-  video_url: 'https://www.youtube.com/watch?v=yourvideoid',  // Replace with the actual YouTube video URL
-  transcript: JSON.stringify(transcript),
-  summary: finalSummary.text()
-};
+  // Extracting details from getVideoDetails() response
+  const videoDetails = {
+    videoId: detail.id,
+    title: detail.snippet.title,
+    description: detail.snippet.description,
+    channelId: detail.snippet.channelId,
+    channelName: detail.snippet.channelTitle,
+    videoLengthSeconds: detail.contentDetails.duration,
+    viewCount: detail.statistics.viewCount,
+    publishedTime: detail.snippet.publishedAt,
+  };
+ 
+  // Sample data for the request body
+  const requestBody = {
+    userId: userId, // Replace with the actual user ID
+    video_url: `https://www.youtube.com/watch?v=${detail.id}`, // Replace with the actual YouTube video URL
+    transcript: JSON.stringify(transcript),
+    summary: finalSummary.text(),
+    videoDetails: videoDetails,
+    captions: captionsInfo,
+ 
+  };
 
+  console.log("Video details Data===================>",requestBody)
 
-
-saveSummaryInDB(requestBody);
-
+// saveSummaryInDB(requestBody);
 
 
 return finalSummary.text();

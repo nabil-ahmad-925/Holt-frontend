@@ -20,7 +20,7 @@ export function insertSummaryBtn() {
     if (!getSearchParam(window.location.href).v) { return; }
 
     waitForElm('#secondary.style-scope.ytd-watch-flexy').then(() => {
-      console.log("On Click")
+      console.log("On Click ")
         // Sanitize
         Array.from(document.getElementsByClassName("yt_ai_summary_container")).forEach(el => { el.remove(); });
 
@@ -134,7 +134,8 @@ export function insertSummaryBtn() {
                 </div>
             `);
 
-            const shouldProceed =await getApiKeyFromUser();
+            let shouldProceed =await getApiKeyFromUser();
+           
             console.log("What is should proecdd value is ======>",shouldProceed)
             if (shouldProceed) {
                 console.log("Proceeding with further processing...");
@@ -145,6 +146,7 @@ export function insertSummaryBtn() {
 // ------------------------------------------------------------------------------------------------------------///////
             // Get Transcript Language Options & Create Language Select Btns
             const langOptionsWithLink = await getLangOptionsWithLink(videoId);
+        
             if (!langOptionsWithLink) {
                 noTranscriptionAlert();
                 return;
@@ -369,16 +371,16 @@ async function  getApiKeyFromUser() {
 }
 
 // Save data to local storage
-function saveData() {
-    const key = "User";
-    const value = {
-        id: "2d360569-a604-4a41-b0b3-d50944bb9e9a",
-        username: "holt1",
-        email: "holt12345@gmail.com",
-        password: "$2b$10$JdvI/QNtAKW2SKVXFWNjVuxV8/0jMimi4VhB9FEijtbmCftT81UoK",
-        created_at: "2024-02-24T23:08:53.552616",
-        updated_at: "2024-02-24T23:08:53.552616"
-    };
+function saveData(key , value) {
+    // const key = "User";
+    // const value = {
+    //     id: "2d360569-a604-4a41-b0b3-d50944bb9e9a",
+    //     username: "holt1",
+    //     email: "holt12345@gmail.com",
+    //     password: "$2b$10$JdvI/QNtAKW2SKVXFWNjVuxV8/0jMimi4VhB9FEijtbmCftT81UoK",
+    //     created_at: "2024-02-24T23:08:53.552616",
+    //     updated_at: "2024-02-24T23:08:53.552616"
+    // };
 
     chrome.storage.local.set({ [key]: value }, function() {
         if (chrome.runtime.lastError) {

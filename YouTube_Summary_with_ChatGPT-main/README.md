@@ -195,3 +195,33 @@ Explanation:
    - If the message is "getPrompt," it sends a response containing the current value of the `prompt` variable and then resets the `prompt` to an empty string.
 
 This background script serves as a communication hub between different components of the extension, handling events related to installation and managing the prompt value received from the content script.
+
+
+
+
+
+
+
+
+---------------------------------------------------------Flow-----------------------------------------------------------
+
+login  -> show portal  -> copy token
+enter token in extension -> print summary 
+
+createdAt
+updatedAt
+videoid
+title
+description
+channelid
+channelname
+captions
+captionslanguage
+relatedvideos
+videolengthseconds
+viewcount
+publishedtime
+transcript
+summary
+
+----------------------------------------------------------------

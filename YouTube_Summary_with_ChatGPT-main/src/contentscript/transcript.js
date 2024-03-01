@@ -5,6 +5,7 @@ export async function getLangOptionsWithLink(videoId) {
   
   // Get a transcript URL
   const videoPageResponse = await fetch("https://www.youtube.com/watch?v=" + videoId);
+  console.log("Data ===> Nabil 888888888 =======> ", videoPageResponse);
   const videoPageHtml = await videoPageResponse.text();
   const splittedHtml = videoPageHtml.split('"captions":')
 
@@ -43,6 +44,8 @@ export async function getRawTranscript(link) {
   // Parse Transcript
   const jQueryParse = $.parseHTML(transcriptPageXml);
   const textNodes = jQueryParse[1].childNodes;
+
+  console.log("Text nodes =========>",textNodes)
 
   return Array.from(textNodes).map(i => {
     return {
@@ -172,4 +175,11 @@ export async function getTranscriptHTML(link, videoId) {
 function convertIntToHms(num) {
   const h = (num < 3600) ? 14 : 12;
   return (new Date(num * 1000).toISOString().substring(h, 19)).toString();
+}
+
+// Function to make API requests
+async function fetchData(url) {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
 }
