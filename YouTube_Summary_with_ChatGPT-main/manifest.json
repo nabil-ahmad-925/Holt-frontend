@@ -1,6 +1,6 @@
 {
   "name": "Holt Meyers",
-  "version": "1.0.4",
+  "version": "1.0.0",
   "manifest_version": 3,
   "description": "Use Gemini to summarize YouTube videos with Holt Meyers",
   "background": {

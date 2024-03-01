@@ -149,7 +149,7 @@ export async function getTranscriptHTML(link, videoId) {
   })
 
   // console.log("Array==>",scriptObjArr)
-  const summary = await main(scriptObjArr);
+  const summary = await main(scriptObjArr, videoId);
 
   return  `<div class="yt_ai_summary_transcript_text_segment">
   <div><a class="yt_ai_summary_transcript_text_timestamp" style="padding-top: 16px !important;"   target="_blank""></a></div>
