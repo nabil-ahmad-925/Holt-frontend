@@ -5,14 +5,11 @@ import { getSearchParam } from "./searchParam";
 import { getChunckedTranscripts, getSummaryPrompt } from "./prompt";
 import { copyTextToClipboard } from "./copy";
  
-
-import {main} from './summaryGenerate';
-
+ 
 
 export function insertSummaryBtn() {
     console.log("Inside btn instert =======================>");
-    // main();
-    // Sanitize Transcript Div
+  
     if (document.querySelector("#yt_ai_summary_lang_select")) { document.querySelector("#yt_ai_summary_lang_select").innerHTML = ""; }
     if (document.querySelector("#yt_ai_summary_summary")) { document.querySelector("#yt_ai_summary_summary").innerHTML = ""; }
     Array.from(document.getElementsByClassName("yt_ai_summary_container")).forEach(el => { el.remove(); });

@@ -5,7 +5,7 @@ export async function getLangOptionsWithLink(videoId) {
   
   // Get a transcript URL
   const videoPageResponse = await fetch("https://www.youtube.com/watch?v=" + videoId);
-  console.log("Data ===> Nabil 888888888 =======> ", videoPageResponse);
+ 
   const videoPageHtml = await videoPageResponse.text();
   const splittedHtml = videoPageHtml.split('"captions":')
 
@@ -44,9 +44,7 @@ export async function getRawTranscript(link) {
   // Parse Transcript
   const jQueryParse = $.parseHTML(transcriptPageXml);
   const textNodes = jQueryParse[1].childNodes;
-
-  console.log("Text nodes =========>",textNodes)
-
+ 
   return Array.from(textNodes).map(i => {
     return {
       start: i.getAttribute("start"),
@@ -148,7 +146,7 @@ export async function getTranscriptHTML(link, videoId) {
 
   })
 
-  // console.log("Array==>",scriptObjArr)
+ 
   const summary = await main(scriptObjArr, videoId);
 
   return  `<div class="yt_ai_summary_transcript_text_segment">
@@ -156,15 +154,7 @@ export async function getTranscriptHTML(link, videoId) {
   <div class="yt_ai_summary_transcript_text"  >${summary}</div>
 </div>`
 
-  // return Array.from(scriptObjArr).map(obj => {
-  //     const t = Math.round(obj.start);
-  //     const hhmmss = convertIntToHms(t);
-  //     // console.log("obj===================>",); 
-  //     return  `<div class="yt_ai_summary_transcript_text_segment">
-  //                 <div><a class="yt_ai_summary_transcript_text_timestamp" style="padding-top: 16px !important;" href="/watch?v=${videoId}&t=${t}s" target="_blank" data-timestamp-href="/watch?v=${videoId}&t=${t}s" data-start-time="${t}">${hhmmss}</a></div>
-  //                 <div class="yt_ai_summary_transcript_text" data-start-time="${t}">${summary}</div>
-  //             </div>`
-  // }).join("");
+ 
 
   function resetNums() {
       loop = 0, chars = [], charCount = 0, timeSum = 0, tempObj = {};
@@ -177,9 +167,4 @@ function convertIntToHms(num) {
   return (new Date(num * 1000).toISOString().substring(h, 19)).toString();
 }
 
-// Function to make API requests
-async function fetchData(url) {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-}
+ 

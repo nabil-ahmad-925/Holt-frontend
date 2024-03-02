@@ -292,13 +292,16 @@ export async function main(transcript, videoId) {
 
   // Converting transcript array to text
   const linesOfText = transcript.map(item => item.text);
-  const joinedText = linesOfText.join(', ');
+  const joinedTranscriptText = linesOfText.join(', ');
 
-  console.log('Final Text ============= >', joinedText);
+  const customInstructions = "Generate summary for this video transcript also make points and details list with headings ,";
+  const finalPrompt = customInstructions+joinedTranscriptText;
+
+  console.log('Final Text ============= >', finalPrompt);
 
   console.log("Generating Summary  ===== >");
   // Sending call to the Gemini model
-  const finalSummary = await generateContent(joinedText);
+  const finalSummary = await generateContent(finalPrompt);
 
   // Getting details of the channel and other than summary and transcript
   const detail = await getVideoDetails();
