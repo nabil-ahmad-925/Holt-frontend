@@ -1,5 +1,9 @@
 import $ from "jquery";
 import {main} from './summaryGenerate';
+import { marked } from "marked";
+
+
+
 
 export async function getLangOptionsWithLink(videoId) {
   
@@ -148,10 +152,12 @@ export async function getTranscriptHTML(link, videoId) {
 
  
   const summary = await main(scriptObjArr, videoId);
+ // Convert Markdown to HTML using the 'marked' library
+ const summaryHTML = marked(summary);
 
   return  `<div class="yt_ai_summary_transcript_text_segment">
   <div><a class="yt_ai_summary_transcript_text_timestamp" style="padding-top: 16px !important;"   target="_blank""></a></div>
-  <div class="yt_ai_summary_transcript_text"  >${summary}</div>
+  <div class="yt_ai_summary_transcript_text"  >${summaryHTML}</div>
 </div>`
 
  

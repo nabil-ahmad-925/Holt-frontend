@@ -1,9 +1,10 @@
 .yt_ai_summary_container {
-    background-color: #2ce335;
+    background-color: #00684A;
     padding: 4px 8px 4px 12px;
     border: 1px solid rgba(0,0,0,0.3);
     border-radius: 4px;
     margin-bottom: 10px;
+    color:white;
 }
 
 .yt_ai_summary_header {
